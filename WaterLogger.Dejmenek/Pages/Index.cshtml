@@ -1,0 +1,45 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<a button type="button" class="btn btn-success" asp-page="/Create">
+    Add record    
+</a>
+
+<table id="records" class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Records.FirstOrDefault().Date)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Records.FirstOrDefault().Quantity)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.Records.Any())
+        {
+            @foreach (var record in Model.Records)
+            {
+                <tr class="list-row">
+                    <td>@Html.DisplayFor(modelItem => record.Date)</td>
+                    <td>@Html.DisplayFor(modelItem => record.Quantity)</td>
+                    <td>
+                        <a class="btn btn-danger" asp-page="./Delete" asp-route-id="@record.Id">Delete</a>
+                        <a class="btn btn-warning" asp-page="./Update" asp-route-id="@record.Id">Edit</a>
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="3" class="text-center">No records found.</td>
+            </tr>
+        }
+    </tbody>
+</table>
