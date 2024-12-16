@@ -1,63 +1,42 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.Data.Sqlite;
 using WaterLogger.Dejmenek.Models;
+using WaterLogger.Dejmenek.Repositories;
 
 namespace WaterLogger.Dejmenek.Pages
 {
     public class DeleteModel : PageModel
     {
-        private readonly IConfiguration _configuration;
+        private readonly IDrinkingWaterRepository _drinkingWaterRepository;
         [BindProperty]
-        public DrinkingWaterModel DrinkingWater { get; set; }
-        public DeleteModel(IConfiguration configuration)
+        public DrinkingWaterModel DrinkingWater { get; set; } = default!;
+
+        public DeleteModel(IDrinkingWaterRepository drinkingWaterRepository)
         {
-            _configuration = configuration;
+            _drinkingWaterRepository = drinkingWaterRepository;
         }
+
         public IActionResult OnGet(int id)
         {
-            DrinkingWater = GetById(id);
+            try
+            {
+                DrinkingWater = _drinkingWaterRepository.GetById(id);
+            }
+            catch (Exception ex) { }
 
             return Page();
         }
 
         public IActionResult OnPost(int id)
         {
-            using (var connection = new SqliteConnection(_configuration.GetConnectionString("WaterLogger")))
+            try
             {
-                connection.Open();
-                string sql = "DELETE FROM drinking_water WHERE Id = @Id";
-
-                using (var command = new SqliteCommand(sql, connection))
-                {
-                    command.Parameters.AddWithValue("@Id", id);
-                    command.ExecuteNonQuery();
-                }
-
-                return RedirectToPage("./Index");
+                _drinkingWaterRepository.Delete(id);
             }
-        }
-
-        private DrinkingWaterModel GetById(int id)
-        {
-            var drinkingWaterRecord = new DrinkingWaterModel();
-
-            using (var connection = new SqliteConnection(_configuration.GetConnectionString("WaterLogger")))
+            catch (Exception ex)
             {
-                connection.Open();
-                string sql = "SELECT * FROM drinking_water WHERE Id = @Id";
-                using var command = new SqliteCommand(sql, connection);
-                command.Parameters.AddWithValue("@Id", id);
-                using var reader = command.ExecuteReader();
-                while (reader.Read())
-                {
-                    drinkingWaterRecord.Id = reader.GetInt32(0);
-                    drinkingWaterRecord.Quantity = reader.GetDouble(1);
-                    drinkingWaterRecord.Date = DateTime.Parse(reader.GetString(2));
-                }
             }
-
-            return drinkingWaterRecord;
+            return RedirectToPage("./Index");
         }
     }
 }

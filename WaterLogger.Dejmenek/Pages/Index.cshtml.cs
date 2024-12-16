@@ -1,46 +1,27 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.Data.Sqlite;
 using WaterLogger.Dejmenek.Models;
+using WaterLogger.Dejmenek.Repositories;
 
 namespace WaterLogger.Dejmenek.Pages;
 public class IndexModel : PageModel
 {
-    private readonly IConfiguration _configuration;
+    private readonly IDrinkingWaterRepository _drinkingWaterRepository;
     public List<DrinkingWaterModel> Records { get; set; } = new List<DrinkingWaterModel>();
 
-    public IndexModel(IConfiguration configuration)
+    public IndexModel(IDrinkingWaterRepository drinkingWaterRepository)
     {
-        _configuration = configuration;
+        _drinkingWaterRepository = drinkingWaterRepository;
     }
 
     public IActionResult OnGet()
     {
-        Records = GetAllRecords();
+        try
+        {
+            Records = _drinkingWaterRepository.GetAllRecords();
+        }
+        catch (Exception ex) { }
 
         return Page();
-    }
-
-    private List<DrinkingWaterModel> GetAllRecords()
-    {
-        var data = new List<DrinkingWaterModel>();
-        using (var connection = new SqliteConnection(_configuration.GetConnectionString("WaterLogger")))
-        {
-            connection.Open();
-            string sql = "SELECT * FROM drinking_water";
-            using var command = new SqliteCommand(sql, connection);
-            using var reader = command.ExecuteReader();
-            while (reader.Read())
-            {
-                data.Add(new DrinkingWaterModel
-                {
-                    Id = reader.GetInt32(0),
-                    Quantity = reader.GetDouble(1),
-                    Date = DateTime.Parse(reader.GetString(2))
-                });
-            }
-        }
-
-        return data;
     }
 }
