@@ -10,9 +10,9 @@ namespace WaterLogger.Dejmenek.Pages
         private readonly IDrinkingWaterRepository _drinkingWaterRepository;
         private readonly ILogger _logger;
         [BindProperty]
-        public DrinkingWaterModel DrinkingWater { get; set; } = default!;
+        public DrinkingWater DrinkingWater { get; set; } = default!;
 
-        public UpdateModel(IDrinkingWaterRepository drinkingWaterRepository, ILogger logger)
+        public UpdateModel(IDrinkingWaterRepository drinkingWaterRepository, ILogger<UpdateModel> logger)
         {
             _drinkingWaterRepository = drinkingWaterRepository;
             _logger = logger;

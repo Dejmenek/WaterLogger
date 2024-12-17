@@ -10,7 +10,7 @@ namespace WaterLogger.Dejmenek.Pages
         private readonly IDrinkingWaterRepository _drinkingWaterRepository;
         private readonly ILogger _logger;
 
-        public CreateModel(IDrinkingWaterRepository drinkingWaterRepository, ILogger logger)
+        public CreateModel(IDrinkingWaterRepository drinkingWaterRepository, ILogger<CreateModel> logger)
         {
             _drinkingWaterRepository = drinkingWaterRepository;
             _logger = logger;
@@ -22,7 +22,7 @@ namespace WaterLogger.Dejmenek.Pages
         }
 
         [BindProperty]
-        public DrinkingWaterModel DrinkingWater { get; set; } = default!;
+        public DrinkingWater DrinkingWater { get; set; } = default!;
 
         public IActionResult OnPost()
         {
@@ -34,7 +34,7 @@ namespace WaterLogger.Dejmenek.Pages
             try
             {
                 _drinkingWaterRepository.Create(DrinkingWater);
-                _logger.LogInformation("Successfully created drinking water record with Id: {Id}.", DrinkingWater.Id);
+                _logger.LogInformation("Successfully created drinking water record.");
             }
             catch (Exception ex)
             {

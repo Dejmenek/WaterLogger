@@ -8,9 +8,9 @@ public class IndexModel : PageModel
 {
     private readonly IDrinkingWaterRepository _drinkingWaterRepository;
     private readonly ILogger _logger;
-    public List<DrinkingWaterModel> Records { get; set; } = new List<DrinkingWaterModel>();
+    public List<DrinkingWater> Records { get; set; } = new List<DrinkingWater>();
 
-    public IndexModel(IDrinkingWaterRepository drinkingWaterRepository, ILogger logger)
+    public IndexModel(IDrinkingWaterRepository drinkingWaterRepository, ILogger<IndexModel> logger)
     {
         _drinkingWaterRepository = drinkingWaterRepository;
         _logger = logger;
