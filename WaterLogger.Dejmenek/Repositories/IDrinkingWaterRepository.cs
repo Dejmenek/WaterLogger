@@ -4,9 +4,9 @@ namespace WaterLogger.Dejmenek.Repositories;
 
 public interface IDrinkingWaterRepository
 {
-    DrinkingWaterModel GetById(int id);
-    void Create(DrinkingWaterModel drinkingWater);
-    void Update(DrinkingWaterModel drinkingWater);
+    DrinkingWater GetById(int id);
+    void Create(DrinkingWater drinkingWater);
+    void Update(DrinkingWater drinkingWater);
     void Delete(int id);
-    List<DrinkingWaterModel> GetAllRecords();
+    List<DrinkingWater> GetAllRecords();
 }

@@ -12,7 +12,7 @@ public class DrinkingWaterRepository : IDrinkingWaterRepository
         _configuration = configuration;
     }
 
-    public void Create(DrinkingWaterModel drinkingWater)
+    public void Create(DrinkingWater drinkingWater)
     {
         using (var connection = new SqliteConnection(_configuration.GetConnectionString("WaterLogger")))
         {
@@ -29,9 +29,9 @@ public class DrinkingWaterRepository : IDrinkingWaterRepository
         }
     }
 
-    public List<DrinkingWaterModel> GetAllRecords()
+    public List<DrinkingWater> GetAllRecords()
     {
-        var data = new List<DrinkingWaterModel>();
+        var data = new List<DrinkingWater>();
         using (var connection = new SqliteConnection(_configuration.GetConnectionString("WaterLogger")))
         {
             connection.Open();
@@ -43,7 +43,7 @@ public class DrinkingWaterRepository : IDrinkingWaterRepository
 
             while (reader.Read())
             {
-                data.Add(new DrinkingWaterModel
+                data.Add(new DrinkingWater
                 {
                     Id = reader.GetInt32(0),
                     Quantity = reader.GetDouble(1),
@@ -69,9 +69,9 @@ public class DrinkingWaterRepository : IDrinkingWaterRepository
         }
     }
 
-    public DrinkingWaterModel GetById(int id)
+    public DrinkingWater GetById(int id)
     {
-        var drinkingWaterRecord = new DrinkingWaterModel();
+        var drinkingWaterRecord = new DrinkingWater();
 
         using (var connection = new SqliteConnection(_configuration.GetConnectionString("WaterLogger")))
         {
@@ -94,7 +94,7 @@ public class DrinkingWaterRepository : IDrinkingWaterRepository
         return drinkingWaterRecord;
     }
 
-    public void Update(DrinkingWaterModel drinkingWater)
+    public void Update(DrinkingWater drinkingWater)
     {
         using (var connection = new SqliteConnection(_configuration.GetConnectionString("WaterLogger")))
         {
