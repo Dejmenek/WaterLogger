@@ -8,12 +8,14 @@ namespace WaterLogger.Dejmenek.Pages
     public class UpdateModel : PageModel
     {
         private readonly IDrinkingWaterRepository _drinkingWaterRepository;
+        private readonly ILogger _logger;
         [BindProperty]
         public DrinkingWaterModel DrinkingWater { get; set; } = default!;
 
-        public UpdateModel(IDrinkingWaterRepository drinkingWaterRepository)
+        public UpdateModel(IDrinkingWaterRepository drinkingWaterRepository, ILogger logger)
         {
             _drinkingWaterRepository = drinkingWaterRepository;
+            _logger = logger;
         }
 
         public IActionResult OnGet(int id)
@@ -21,8 +23,12 @@ namespace WaterLogger.Dejmenek.Pages
             try
             {
                 DrinkingWater = _drinkingWaterRepository.GetById(id);
+                _logger.LogInformation("Successfully retrieved drinking water record with Id: {Id}.", id);
             }
-            catch (Exception ex) { }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while retrieving the drinking water record with Id: {Id}.", id);
+            }
 
             return Page();
         }
@@ -37,8 +43,12 @@ namespace WaterLogger.Dejmenek.Pages
             try
             {
                 _drinkingWaterRepository.Update(DrinkingWater);
+                _logger.LogInformation("Successfully updated drinking water record with Id: {Id}.", DrinkingWater.Id);
             }
-            catch (Exception ex) { }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while updating the drinking water record with Id: {Id}.", DrinkingWater.Id);
+            }
 
             return RedirectToPage("./Index");
         }
