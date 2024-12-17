@@ -4,11 +4,17 @@
     ViewData["Title"] = "Home page";
 }
 
-<a button type="button" class="btn btn-success" asp-page="/Create">
-    Add record    
+<section class="container-fluid d-flex justify-content-between mt-5 mb-3">
+    <h2>All water drinking records <span class="text-secondary">@Model.Records.Count</span></h2>
+    <div class="d-flex">
+        <a button type="button" class="btn btn-success d-flex justify-content-center align-items-center" asp-page="/Create">
+            <img src="~/images/Add.svg" class="me-2" />
+            <span>Add record</span>
 </a>
+    </div>
+</section>
 
-<table id="records" class="table">
+<table id="records" class="table table-hover table-bordered align-middle">
     <thead>
         <tr>
             <th>
@@ -29,8 +35,14 @@
                     <td>@Html.DisplayFor(modelItem => record.Date)</td>
                     <td>@Html.DisplayFor(modelItem => record.Quantity)</td>
                     <td>
-                        <a class="btn btn-danger" asp-page="./Delete" asp-route-id="@record.Id">Delete</a>
-                        <a class="btn btn-warning" asp-page="./Update" asp-route-id="@record.Id">Edit</a>
+                        <a class="btn btn-danger" asp-page="./Delete" asp-route-id="@record.Id">
+                            <img src="~/images/Trash.svg" class="me-2" />
+                            <span>Delete</span>
+                        </a>
+                        <a class="btn btn-warning" asp-page="./Update" asp-route-id="@record.Id">
+                            <img src="~/images/Edit.svg" class="me-2" />
+                            <span>Edit</span>
+                        </a>
                     </td>
                 </tr>
             }
