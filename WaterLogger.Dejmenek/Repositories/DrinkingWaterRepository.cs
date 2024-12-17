@@ -19,7 +19,7 @@ public class DrinkingWaterRepository : IDrinkingWaterRepository
             connection.Open();
             string sql = @"INSERT INTO drinking_water (Quantity, Date)
                                VALUES (@Quantity, @Date)
-                ";
+            ";
 
             using var command = new SqliteCommand(sql, connection);
             command.Parameters.AddWithValue("@Quantity", drinkingWater.Quantity);
@@ -36,8 +36,11 @@ public class DrinkingWaterRepository : IDrinkingWaterRepository
         {
             connection.Open();
             string sql = "SELECT * FROM drinking_water";
+
             using var command = new SqliteCommand(sql, connection);
+
             using var reader = command.ExecuteReader();
+
             while (reader.Read())
             {
                 data.Add(new DrinkingWaterModel
@@ -59,12 +62,10 @@ public class DrinkingWaterRepository : IDrinkingWaterRepository
             connection.Open();
             string sql = "DELETE FROM drinking_water WHERE Id = @Id";
 
-            using (var command = new SqliteCommand(sql, connection))
-            {
-                command.Parameters.AddWithValue("@Id", id);
-                command.ExecuteNonQuery();
+            using var command = new SqliteCommand(sql, connection);
+            command.Parameters.AddWithValue("@Id", id);
 
-            }
+            command.ExecuteNonQuery();
         }
     }
 
@@ -76,9 +77,12 @@ public class DrinkingWaterRepository : IDrinkingWaterRepository
         {
             connection.Open();
             string sql = "SELECT * FROM drinking_water WHERE Id = @Id";
+
             using var command = new SqliteCommand(sql, connection);
             command.Parameters.AddWithValue("@Id", id);
+
             using var reader = command.ExecuteReader();
+
             while (reader.Read())
             {
                 drinkingWaterRecord.Id = reader.GetInt32(0);
@@ -104,6 +108,7 @@ public class DrinkingWaterRepository : IDrinkingWaterRepository
             command.Parameters.AddWithValue("@Id", drinkingWater.Id);
             command.Parameters.AddWithValue("@Date", drinkingWater.Date);
             command.Parameters.AddWithValue("@Quantity", drinkingWater.Quantity);
+
             command.ExecuteNonQuery();
         }
     }
