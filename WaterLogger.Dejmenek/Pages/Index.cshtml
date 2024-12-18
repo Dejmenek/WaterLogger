@@ -29,6 +29,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.Records.FirstOrDefault().Quantity)
             </th>
+            <th>
+                MeasureName
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -40,6 +43,7 @@
                 <tr class="list-row">
                     <td>@Html.DisplayFor(modelItem => record.Date)</td>
                     <td>@Html.DisplayFor(modelItem => record.Quantity)</td>
+                    <td>@Html.DisplayFor(modelItem => record.Measure.Name)</td>
                     <td>
                         <a class="btn btn-danger" asp-page="./Delete" asp-route-id="@record.Id">
                             <img src="~/images/Trash.svg" class="me-2" />

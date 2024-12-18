@@ -16,6 +16,12 @@
         <dd class="col-sm-18">
             @Html.DisplayFor(model => model.DrinkingWater.Quantity)
         </dd>
+        <dt class="col-sm-2">
+            MeasureName
+        </dt>
+        <dd class="col-sm-18">
+            @Html.DisplayFor(model => model.DrinkingWater.Measure.Name)
+        </dd>
     </dl>
 
     <form method="post">
